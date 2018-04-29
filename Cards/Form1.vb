@@ -5,22 +5,25 @@ Imports System.Text
 Imports System.Threading.Tasks
 Imports System.IO
 Imports System.Console
-Imports Cards.CardHolder
 
+
+Public Module VAR
+    Public myDeck As Deck = New Deck()
+End Module
 Public Class Form1
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        Dim myDeck As Deck = New Deck()
-        myDeck.shuffle()
+
+        myDeck.Shuffle()
         ListBox1.Items.Clear()
         For i As Integer = 0 To 52 - 1
             Dim tempCard As Card = myDeck.getCard(i)
-            'Write(tempCard.ToString())
+            Write(tempCard.ToString())
             ListBox1.Items.Add(tempCard)
             'If i <> 51 Then Write(",") Else WriteLine()
         Next
-        'Console.Read()
-
+        Console.Read()
+        Debug.Print(myDeck.ToString())
 
     End Sub
 
@@ -104,33 +107,38 @@ Public Class Form1
         Next
     End Sub
 
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+        'myDeck.Shuffle()
+        ListBox1.Items.Clear()
+
+        'Dim tempCard As Card = myDeck.Card(TextBox1.Text)
+        ListBox1.Items.Add(myDeck.getCard(Val(TextBox1.Text)))
+    End Sub
 End Class
 
-Public Class CardHolder
-    Public Enum Suit
-        Club
-        Diamond
-        Heart
-        Spade
-    End Enum
+Public Enum Suit
+    Club
+    Diamond
+    Heart
+    Spade
+End Enum
 
-    Public Enum Rank
-        Ace = 1
-        Deuce
-        Three
-        Four
-        Five
-        Six
-        Seven
-        Eight
-        Nine
-        Ten
-        Jack
-        Queen
-        King
-    End Enum
+Public Enum Rank
+    Ace = 1
+    Deuce
+    Three
+    Four
+    Five
+    Six
+    Seven
+    Eight
+    Nine
+    Ten
+    Jack
+    Queen
+    King
+End Enum
 
-End Class
 
 Public Class Card
     Public ReadOnly suit As Suit
@@ -143,6 +151,7 @@ Public Class Card
     End Sub
 
     Public Overrides Function ToString() As String
+        'Return "The" & rank.ToString() & "of" & suit.ToString() & "s"
         Return "The" & rank.ToString() & "of" & suit.ToString() & "s"
     End Function
 
@@ -175,7 +184,7 @@ Public Class Deck
     End Function
 
 
-    Public Sub shuffle()
+    Public Sub Shuffle()
         Dim newDecks As Card() = New Card(51) {}
         Dim assigend As Boolean() = New Boolean(51) {}
         Dim sourceGen As Random = New Random()
@@ -185,6 +194,10 @@ Public Class Deck
             Dim foundCard As Boolean = False
             While foundCard = False
                 destCard = sourceGen.[Next](52)
+
+                Debug.WriteLine(destCard)
+                Debug.WriteLine(assigend(destCard))
+
                 If assigend(destCard) = False Then foundCard = True
             End While
 
@@ -193,6 +206,8 @@ Public Class Deck
         Next
 
         newDecks.CopyTo(cards, 0)
+        '  cards = newDecks
+
     End Sub
 
 End Class
